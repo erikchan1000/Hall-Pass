@@ -1,46 +1,34 @@
 import React, { useState, useEffect } from "react";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import { generateDate, months } from "@/utils/calendar";
 import cn from "@/utils/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { Button } from "@mui/material";
 import { isBetween, toggleDateSelection } from "@/utils/toggleDateSelection";
 
-
 interface CalendarProps {
   setShowModal: (showModal: boolean) => void;
+  setDateRange: (dateRange: any) => void;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ setShowModal }) => {
+const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange }) => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedRanges, setSelectedRanges] = useState<
-    { start: dayjs.Dayjs; end: dayjs.Dayjs }[]
+    { start: Date; end: Date}[]
   >([]);
 
   const [selectDate, setSelectDate] = useState(null as any);
 
-  const fetchDataAndUpdateCalendar = async () => {
-    try {
-      // Fetch data here and update selectedRanges as needed
-      // const passMap = await getAllPassesByDate();
-      // Update selectedRanges based on the fetched data
-      // For example:
-      // setSelectedRanges([
-      //   { start: dayjs("2023-10-10"), end: dayjs("2023-10-12") },
-      //   { start: dayjs("2023-10-20"), end: dayjs("2023-10-22") },
-      // ]);
-    } catch (e) {
-      console.log("Error Fetching Data");
-      console.log(e);
-    }
-  };
+  console.log("Selected Ranges: ", selectedRanges);
 
   useEffect(() => {
-    fetchDataAndUpdateCalendar();
-  }, []);
-  
+    setDateRange(selectedRanges);
+  }
+  , [selectedRanges, setDateRange]);
+
+
   return (
     <div className="flex gap-10 sm:divide-x sm:w-1/2 mx-auto bg-white p-4 h-fit sm:flex-row flex-col rounded-3xl">
       <div>
@@ -99,7 +87,7 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal }) => {
                         ? "bg-blue-300 text-white"
                         : "",
                       selectedRanges.some((range) =>
-                        isBetween(date, range.start, range.end)
+                        isBetween(date, dayjs(range.start), dayjs(range.end))
                       )
                         ? "bg-blue-600 text-white"
                         : "",
@@ -110,7 +98,7 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal }) => {
                         return;
                       }
                       setSelectDate(date);
-                      toggleDateSelection(date, selectedRanges, setSelectedRanges);
+                      toggleDateSelection(date.toDate(), selectedRanges, setSelectedRanges);
                     }}
                   >
                     {date.date()}
@@ -130,7 +118,6 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal }) => {
             <p className="text-gray-400">List Passes</p>
             <Button
               variant="contained"
-              type="submit"
               sx={{
                 backgroundColor: "rgb(59, 130, 246) !important",
                 color: "white",
