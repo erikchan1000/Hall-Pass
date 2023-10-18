@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
   env: {
       API_KEY: "AIzaSyBHICDLWONiJvqov3qWw0ZagvYGhMSXlAM",
       AUTH_DOMAIN: "hallpass-f1995.firebaseapp.com",

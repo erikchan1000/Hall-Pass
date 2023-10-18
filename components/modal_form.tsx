@@ -6,13 +6,28 @@ import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { AiOutlineClose } from "react-icons/ai";
+import { addPasses } from "@/firebase/add_pass"
+import { requestPasses } from "@/firebase/request_pass"
+import { RangeProps } from "@/utils/toggleDateSelection";
 
 interface ModalFormProps {
   open: boolean;
   onClose?: () => void;
+  submitType: "seller" | "buyer";
+  dateRange: RangeProps[] | string[];
 }
 
-export const ModalForm: React.FC<ModalFormProps> = ({open, onClose}) => {
+async function submitForm(dateRange: RangeProps[] | string[], formData: any, submitType: "seller" | "buyer") {
+  if (submitType === "seller") {
+    console.log("adding passes")
+    console.log(dateRange)
+    await addPasses(dateRange as RangeProps[], formData)
+  } else {
+    await requestPasses(dateRange as string[], formData)
+  }
+}
+
+export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, dateRange, submitType}) => {
   const textFieldStyle = {
     marginBottom: "20px"
   }
@@ -34,7 +49,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose}) => {
     menPass: 0,
   })
   console.log(formData)
-
+  console.log(dateRange)
   const handleChange = (e: any) => {
     setFormData({
       ...formData,
@@ -42,9 +57,10 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose}) => {
     })
   }
 
-  const submit = (e: any) => {
+  const submit = (e: any, dateRange: RangeProps[] | string[]) => {
     e.preventDefault()
     console.log(formData)
+    submitForm(dateRange, formData, submitType)
     onClose && onClose()
   }
   
@@ -57,7 +73,9 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose}) => {
         }}
       />
       <form className='flex flex-col bg-white rounded-3xl p-4 my-auto'
-        onSubmit={submit}
+        onSubmit={(e) => {
+          submit(e, dateRange)
+        }}
       >
         <TextField
           id="outlined-basic"
@@ -120,7 +138,8 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose}) => {
             bgcolor: "rgb(30, 64, 175) !important",
             color: "white",
           },
-        }}>
+        }}
+        >
           Submit
         </Button>
       </form>
