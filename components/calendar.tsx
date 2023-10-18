@@ -6,17 +6,12 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { getAllPassesByDate } from "@/firebase/get_pass"
 import { Button } from "@mui/material";
 
-import { Button } from "@mui/material";
-
-
 interface CalendarProps {
-  setShowModal: (showModal: boolean) => void,
-  setDateRange: (dateRange: any) => void
   setShowModal: (showModal: boolean) => void,
   setDateRange: (dateRange: any) => void
 }
 
-const fetchDataAndUpdateCalendar = async (setPassMap: any) => {
+
 const fetchDataAndUpdateCalendar = async (setPassMap: any) => {
   try {
       const passMap = await getAllPassesByDate()
