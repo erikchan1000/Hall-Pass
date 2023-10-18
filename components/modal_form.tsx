@@ -61,6 +61,7 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, dateRange, s
     e.preventDefault()
     console.log(formData)
     submitForm(dateRange, formData, submitType)
+    submitForm(dateRange, formData, submitType)
     onClose && onClose()
   }
   
