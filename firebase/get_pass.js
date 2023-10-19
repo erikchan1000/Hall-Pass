@@ -8,23 +8,21 @@ export async function getAllPassesByDate() {
   
   docSnap.forEach((doc) => {
     const pass = doc.data();
-
     if ("dateRange" in pass) {
       //conver from timestamp to date
       
-      console.log(pass.dateRange)
-
       pass.dateRange.forEach((date) => {
         let start = date.start.toDate()
         const end = date.end.toDate()
-        console.log('start', start)
-        console.log('end', end)
         while (start <= end) {
           const data = {
             womenPass: pass.womenPass,
             menPass: pass.menPass,
           }
-          passMap.set(start.toDateString(), data);
+          passMap.set(start.toDateString(), passMap.get(start.toDateString()) ? {
+            womenPass: parseInt(passMap.get(start.toDateString()).womenPass) + parseInt(data.womenPass),
+            menPass: parseInt(passMap.get(start.toDateString()).menPass) + parseInt(data.menPass),
+          } : data);
 
         start = dayjs(start).add(1, "day").toDate();
       }
@@ -33,8 +31,7 @@ export async function getAllPassesByDate() {
 
          }
   })
-  console.log('test')
-  console.log(passMap)
+
   return passMap
 }
 
