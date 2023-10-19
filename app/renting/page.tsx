@@ -13,10 +13,9 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [dateRange, setDateRange] = useState([] as any)
   const [showInfo, setShowInfo] = useState(false)
-  const [ submitted,setSubmitted ] =useState(false)
+  const [ submitted,setSubmitted ] =useState("")
   const onClose = () => {
     setShowModal(false)
-    setSubmitted(true)
   }
 
   const onInfoClose = () => {
@@ -25,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     if (submitted) {
       setTimeout(() => {
-        setSubmitted(false)
+        setSubmitted("")
       }, 3000)
     }
 
@@ -33,11 +32,11 @@ export default function Home() {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen flex-col w-full">
-      <Link href="/" className='top-5 md:h-40 md:w-40 absolute h-10 w-10 md:top-20'>
+      <Link href="/" className='top-5 md:h-24 md:w-24 h-10 w-10 md:top-20 mb-10'>
         <Image src={snowflake} alt="snowflake" /> 
       </Link>
       <Calendar setShowModal={setShowModal} setDateRange={setDateRange}/>
-      <ModalForm open={showModal} onClose={onClose} dateRange={dateRange} submitType="buyer" />
+      <ModalForm open={showModal} onClose={onClose} dateRange={dateRange} submitType="buyer" setSubmitted={setSubmitted} />
       <ModalInfo open={showInfo} onClose={onInfoClose} />
       <Button variant="contained" onClick={() => setShowInfo(true)}
         sx={{
@@ -50,8 +49,8 @@ export default function Home() {
           }
         }}
       >Price Info</Button>
-      {submitted &&
-        <Alert severity="success" sx={{position: 'absolute', bottom: '10px'}}>Successfully submitted request!</Alert>
+      {submitted !== "" &&
+        <Alert severity="success" sx={{position: 'absolute', bottom: '10px'}}>{submitted}</Alert>
       }
     </div>
   )

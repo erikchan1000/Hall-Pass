@@ -67,7 +67,7 @@ export default function Page() {
     <div className="flex h-screen flex-col justify-center items-center">
       {user && 
       <>
-        <Link href="/" className='top-5 md:h-40 md:w-40 absolute h-10 w-10 md:top-20'>
+        <Link href="/" className='top-5 mb-10 md:h-24 md:w-24 h-10 w-10 md:top-20'>
           <Image src={snowflake} alt="snowflake" /> 
         </Link>
         <Button variant="contained" onClick={handleLogout}
