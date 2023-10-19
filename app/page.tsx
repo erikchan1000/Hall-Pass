@@ -1,24 +1,31 @@
-'use client'
-import React, { useState } from "react";
-import Calendar from '@/components/calendar'
+import React from 'react';
+import { Snow } from '@/components/snow';
 import Image from 'next/image'
-import snowflake from '@/public/snowflake.svg'
-import { ModalForm } from '@/components/modal_form'
+import SnowMountain from "@/public/SnowMountain.jpg"
+import Link from 'next/link'
+import Snowflake from '@/public/snowflake.svg'
 
-
-export default function Home() {
-  const [showModal, setShowModal] = useState(false)
-  const [dateRange, setDateRange] = useState([] as any)
-  const onClose = () => {
-    setShowModal(false)
-  }
-  console.log('home')
-  console.log(dateRange)
+export default function Page() {
   return (
-    <div className="flex justify-center items-center h-screen w-screen flex-col w-full">
-      <Image src={snowflake} alt="snowflake" className='top-5 md:h-40 md:w-40 absolute h-20 w-20 md:top-20' /> 
-      <Calendar setShowModal={setShowModal} setDateRange={setDateRange}/>
-      <ModalForm open={showModal} onClose={onClose} dateRange={dateRange} submitType="buyer" />
+    <div className='h-screen w-screen bg-black absolute flex justify-evenly items-center'
+      style={{
+        backgroundImage: `url(${SnowMountain.src})`,
+        backgroundSize: 'cover',
+      }}
+    >
+      <h1 className='text-xl top-20 font-bold text-black text-white z-10 absolute flex items-center'>
+        <Image src={Snowflake} alt='Snowflake' width={50} height={50} className='mr-2'/>
+        Snowflake
+      </h1>
+
+      <Link href='/renting' className='text-xl z-10 rounded-2xl bg-blue-200 p-2 w-24 flex justify-center hover:bg-blue-500 transition-all'>
+        Renter
+      </Link>
+      <Link href='/seller' className='text-xl z-10 rounded-2xl bg-blue-200 p-2 w-24 flex hover:bg-blue-500 transition-all justify-center'>
+        Seller
+      </Link>
+      <Snow />
     </div>
   )
 }
+

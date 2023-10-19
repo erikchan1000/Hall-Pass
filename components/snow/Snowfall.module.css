@@ -1,0 +1,25 @@
+.snowfallContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.snowflake {
+  position: absolute;
+  animation: snowfall 10s linear infinite;
+  pointer-events: none;
+  
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translateY(-1vh) scale(1);
+  }
+  100% {
+    transform: translateY(100vh) scale(0);
+  }
+}
