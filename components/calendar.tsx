@@ -18,8 +18,6 @@ const fetchDataAndUpdateCalendar = async (setPassMap: any) => {
       console.log(passMap)
       setPassMap(passMap)
       return passMap
-      setPassMap(passMap)
-      return passMap
   }
   catch (e) {
     console.log("Error Fetching Data")
