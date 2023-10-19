@@ -9,6 +9,7 @@
 /.firebase/
 /functions
 firebase-debug.log
+next.config.js
 # testing
 /coverage
 
