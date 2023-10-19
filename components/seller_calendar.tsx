@@ -47,6 +47,7 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange }) => {
               className="cursor-pointer hover:scale-105 transition-all"
               onClick={() => {
                 setToday(currentDate);
+                setSelectedRanges([]);
               }}
             >
               Today

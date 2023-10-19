@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from "@/components/seller_calendar"
 import { ModalForm } from "@/components/modal_form"
 import Link from 'next/link'
@@ -8,11 +8,22 @@ import Image from 'next/image'
 import snowflake from '@/public/snowflake.svg'
 import { ModalInfo } from '@/components/modal_info'
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 export default function Page() {
   const [showModal, setShowModal] = useState(false)
   const [dateRange, setDateRange] = useState([] as any) 
   const [ showInfo, setShowInfo ] = useState(false)
+  const [ submitted, setSubmitted ] = useState(false)
+  
+  useEffect(() => {
+      if (submitted) {
+        setTimeout(() => {
+              setSubmitted(false)
+        }, 3000)
+      }
+  }, [submitted])
+
   return (
     <div className="flex h-screen flex-col justify-center items-center">
       <Link href="/" className='top-5 md:h-40 md:w-40 absolute h-10 w-10 md:top-20'>
@@ -20,7 +31,11 @@ export default function Page() {
       </Link>
 
       <Calendar setShowModal={setShowModal} setDateRange={setDateRange}/>
-      <ModalForm open={showModal} dateRange={dateRange} onClose={() => setShowModal(false)} submitType="seller"/>
+      <ModalForm open={showModal} dateRange={dateRange} onClose={() => {
+        setShowModal(false)
+        setSubmitted(true)
+        }} 
+        submitType="seller"/>
       <Button variant="contained" onClick={() => setShowInfo(true)}
         sx={{
           backgroundColor: "rgb(59, 130, 246) !important",
@@ -33,7 +48,9 @@ export default function Page() {
         }}
       >Price Info</Button>
       <ModalInfo open={showInfo} onClose={() => setShowInfo(false)} />
-
+      {submitted &&
+        <Alert severity="success" sx={{ position: 'absolute', bottom: '10px' }}>Successfully submitted request!</Alert>
+      }
     </div>
   ); 
 }

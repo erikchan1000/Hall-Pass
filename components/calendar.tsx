@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
 import { generateDate, months } from "@/utils/calendar";
-import cn from "@/utils/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { getAllPassesByDate } from "@/firebase/get_pass"
 import { Button } from "@mui/material";
+import cn from "@/utils/cn";
 
 interface CalendarProps {
   setShowModal: (showModal: boolean) => void,
@@ -100,6 +100,7 @@ export default function Calendar({setShowModal, setDateRange}: CalendarProps) {
 							className=" cursor-pointer hover:scale-105 transition-all"
 							onClick={() => {
 								setToday(currentDate);
+                setSelectedDates([])
 							}}
 						>
 							Today

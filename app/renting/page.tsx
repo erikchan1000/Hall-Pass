@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from '@/components/calendar'
 import Image from 'next/image'
 import snowflake from '@/public/snowflake.svg'
@@ -7,19 +7,29 @@ import { ModalForm } from '@/components/modal_form'
 import { ModalInfo } from '@/components/modal_info'
 import Button from '@mui/material/Button';
 import Link from 'next/link'
+import { Alert } from "@mui/material";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [dateRange, setDateRange] = useState([] as any)
   const [showInfo, setShowInfo] = useState(false)
-
+  const [ submitted,setSubmitted ] =useState(false)
   const onClose = () => {
     setShowModal(false)
+    setSubmitted(true)
   }
 
   const onInfoClose = () => {
     setShowInfo(false)
   }
+  useEffect(() => {
+    if (submitted) {
+      setTimeout(() => {
+        setSubmitted(false)
+      }, 3000)
+    }
+
+  }, [submitted])
 
   return (
     <div className="flex justify-center items-center h-screen w-screen flex-col w-full">
@@ -40,6 +50,9 @@ export default function Home() {
           }
         }}
       >Price Info</Button>
+      {submitted &&
+        <Alert severity="success" sx={{position: 'absolute', bottom: '10px'}}>Successfully submitted request!</Alert>
+      }
     </div>
   )
 }
