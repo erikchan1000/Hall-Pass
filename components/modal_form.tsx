@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useState, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import Dialog from "@mui/material/Dialog";
@@ -54,6 +52,8 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
+      if ( user === null ) return
+
       setUser(user)
       setFormData({
         ...formData,
@@ -111,6 +111,17 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted
           required
           onChange={handleChange}
         />
+        {submitType === "buyer" &&
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            name="email"
+            variant="outlined"
+            style={textFieldStyle}
+            required
+            onChange={handleChange}
+          />
+        }
         <TextField
           id="outlined-basic"
           label="Phone Number"
