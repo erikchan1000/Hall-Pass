@@ -11,12 +11,13 @@ export interface PassDataProps {
   phone: string,
 }
 
-export const mergeRanges = (range1: RangeProps, range2: RangeProps) => {
-  const start1 = range1.start
-  const end1 = range1.end
+export const mergeRanges = (range1: any, range2: RangeProps) => {
+  const start1 = range1.start.toDate()
+  const end1 = range1.end.toDate()
   const start2 = range2.start
   const end2 = range2.end
-  
+  console.log('merge range data input')
+
   const start = dayjs(start1).isBefore(dayjs(start2)) ? start1 : start2
   const end = dayjs(end1).isAfter(dayjs(end2)) ? end1 : end2
   console.log('merging')
@@ -53,6 +54,7 @@ export async function addPasses(dateRange: RangeProps[], passData: PassDataProps
       const range1 = newRange[p1]
       const range2 = dateRange[p2]
       console.log('range1', range1)
+      console.log(typeof range1.start)
       console.log('range2', range2)
       const mergedRange = mergeRanges(range1, range2)
       if (mergedRange) {

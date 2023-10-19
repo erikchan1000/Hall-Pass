@@ -18,7 +18,7 @@ export default function Page() {
         Snowflake
       </h1>
 
-      <Link href='/renting' className='text-xl z-10 rounded-2xl bg-blue-200 p-2 w-24 flex justify-center hover:bg-blue-500 transition-all'>
+      <Link href='/seller-login' className='text-xl z-10 rounded-2xl bg-blue-200 p-2 w-24 flex justify-center hover:bg-blue-500 transition-all'>
         Renter
       </Link>
       <Link href='/seller' className='text-xl z-10 rounded-2xl bg-blue-200 p-2 w-24 flex hover:bg-blue-500 transition-all justify-center'>

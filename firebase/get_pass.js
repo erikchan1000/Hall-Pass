@@ -35,4 +35,28 @@ export async function getAllPassesByDate() {
   return passMap
 }
 
+export async function getPassesByEmail(email) {
+  const docRef = doc(db, "passes", email);
+  const docSnap = await getDoc(docRef);
+  const docData = docSnap.data();
+  const passMap = new Map();
+  console.log("Testing 1000")
+  console.log(docSnap.data())
+  if (docSnap.exists()) {
+    docData.dateRange.forEach((date) => {
+      let start = date.start.toDate()
+      const end = date.end.toDate()
+      while (start <= end) {
+        const data = {
+          womenPass: docData.womenPass,
+          menPass: docData.menPass,
+        }
 
+        passMap.set(start.toDateString(), data);
+        start = dayjs(start).add(1, "day").toDate();
+      }
+    })
+  }
+
+  return passMap
+}

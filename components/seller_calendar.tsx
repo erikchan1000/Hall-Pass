@@ -9,9 +9,10 @@ import { isBetween, toggleDateSelection } from "@/utils/toggleDateSelection";
 interface CalendarProps {
   setShowModal: (showModal: boolean) => void;
   setDateRange: (dateRange: any) => void;
+  passMap: Map<string, any>;
 }
 
-const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange }) => {
+const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange, passMap}) => {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
@@ -27,6 +28,8 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange }) => {
     setDateRange(selectedRanges);
   }
   , [selectedRanges, setDateRange]);
+
+  console.log()
 
 
   return (
@@ -103,6 +106,23 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange }) => {
                     }}
                   >
                     {date.date()}
+                    <div className={
+                      cn(
+                        selectedRanges.some((range) =>
+                          isBetween(date, dayjs(range.start), dayjs(range.end))
+                        )
+                          ? "text-xs text-white"
+                          : "text-gray-400 text-xs",
+                        )
+                      }
+                    >
+                      {
+                        passMap.size > 0 && passMap.get(date.toDate().toDateString()) ?
+                        parseInt(passMap.get(date.toDate().toDateString())["womenPass"])
+                        + parseInt(passMap.get(date.toDate().toDateString())["menPass"])
+                        : "None"
+                      }
+                    </div>
                   </h1>
                 </div>
               );

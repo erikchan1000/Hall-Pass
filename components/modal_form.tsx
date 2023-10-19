@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
@@ -9,37 +9,61 @@ import { AiOutlineClose } from "react-icons/ai";
 import { addPasses } from "@/firebase/add_pass"
 import { requestPasses } from "@/firebase/request_pass"
 import { RangeProps } from "@/utils/toggleDateSelection";
+import { auth } from "@/firebase/firebase_config.js";
 
 interface ModalFormProps {
   open: boolean;
   onClose?: () => void;
   submitType: "seller" | "buyer";
   dateRange: RangeProps[] | string[];
+  setSubmitted: (submitted: string) => void;
 }
 
-async function submitForm(dateRange: RangeProps[] | string[], formData: any, submitType: "seller" | "buyer") {
+async function submitForm(setSubmitted: (submitted: string) => void, dateRange: RangeProps[] | string[], formData: any, submitType: "seller" | "buyer") {
   if (submitType === "seller") {
     console.log("adding passes")
     console.log(dateRange)
-    await addPasses(dateRange as RangeProps[], formData)
+    try {
+      await addPasses(dateRange as RangeProps[], formData)
+      setSubmitted("Success")
+    }
+    catch (error: any) {
+      console.log(error)
+      setSubmitted("Error")
+    }
   } else {
-    await requestPasses(dateRange as string[], formData)
+    try {
+      await requestPasses(dateRange as string[], formData)
+      setSubmitted("Success")
+    }
+    catch (error: any) {
+      console.log(error)
+      setSubmitted("Error")
+    }
   }
 }
 
-export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, dateRange, submitType}) => {
+export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted, dateRange, submitType}) => {
   const textFieldStyle = {
     marginBottom: "20px"
   }
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const dialogStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  }
+  const [user, setUser] = useState(null as any)
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user)
+      setFormData({
+        ...formData,
+        email: user?.email as string,
+        }
+      )
+    })
+  }, [])
+
+  console.log(user)
   
   const [formData, setFormData] = useState({
     name: "",
@@ -59,12 +83,12 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, dateRange, s
 
   const submit = (e: any, dateRange: RangeProps[] | string[]) => {
     e.preventDefault()
-    console.log(formData)
-    submitForm(dateRange, formData, submitType)
-    submitForm(dateRange, formData, submitType)
+    submitForm(setSubmitted, dateRange, formData, submitType)
+
     onClose && onClose()
   }
   
+  console.log(formData)
   return (
     <Dialog open={open} fullScreen={fullScreen}
     >
@@ -82,15 +106,6 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, dateRange, s
           id="outlined-basic"
           label="Name"
           name="name"
-          variant="outlined"
-          style={textFieldStyle}
-          required
-          onChange={handleChange}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Email"
-          name="email"
           variant="outlined"
           style={textFieldStyle}
           required
