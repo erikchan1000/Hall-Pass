@@ -31,7 +31,7 @@ export const ModalInfo: React.FC<ModalInfoProps> = ({ open, onClose }) => {
           $50/day 4 days or more
         </li>
         <span className='text-xs text-slate-500 block mt-10'>
-          **$10 deposit will go to operational costs and site admins
+          **$10/day deposit will go to operational costs and site admins
         </span>
       </div>
     </Dialog>
