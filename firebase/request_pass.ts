@@ -16,7 +16,7 @@ export async function requestPasses(dateRange: string[], passData: PassDataProps
       end: dayjs(dateRange[dateRange.length - 1]).toDate()
     }
   ]
-  
+
   let modifiedRange: RangeProps[] = []
   if (passDataRange) {
     let newRange = [...passDataRange]
@@ -33,30 +33,25 @@ export async function requestPasses(dateRange: string[], passData: PassDataProps
     while (p1 < newRange.length && p2 < modDate.length) {
       const range1 = newRange[p1]
       const range2 = modDate[p2]
-      console.log('range1', range1)
-      console.log('range2', range2)
       const mergedRange = mergeRanges(range1, range2)
       if (mergedRange) {
         newRange[p1] = mergedRange
         p2++
       }
-        else {
-          p1++
-        }
-          //add the rest of the range of dateRange to newRange
-          if (p2 === dateRange.length && p1 < newRange.length) {
-            newRange.splice(p1, 0, ...dateRange.slice(p2))
-          }
-          modifiedRange = newRange
+      else {
+        p1++
+      }
+      //add the rest of the range of dateRange to newRange
+      if (p2 === dateRange.length && p1 < newRange.length) {
+        newRange.splice(p1, 0, ...dateRange.slice(p2))
+      }
+      modifiedRange = newRange
     }
   }
 
   else {
-    console.log('passDataRange does not exist')
-    modifiedRange = modDate 
+    modifiedRange = modDate
   }
-  console.log('modified range')
-  console.log(modifiedRange)
 
   try {
     await setDoc(passRef, {
@@ -64,7 +59,9 @@ export async function requestPasses(dateRange: string[], passData: PassDataProps
       dateRange: modifiedRange,
       name: passData.name,
       phone: passData.phone,
-      status: 'pending'
+      status: 'pending',
+      menPass: passData.menPass as number,
+      womenPass: passData.womenPass as number,
     })
     console.log('pass added')
   }

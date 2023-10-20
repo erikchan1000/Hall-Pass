@@ -19,8 +19,6 @@ interface ModalFormProps {
 
 async function submitForm(setSubmitted: (submitted: string) => void, dateRange: RangeProps[] | string[], formData: any, submitType: "seller" | "buyer") {
   if (submitType === "seller") {
-    console.log("adding passes")
-    console.log(dateRange)
     try {
       await addPasses(dateRange as RangeProps[], formData)
       setSubmitted("Success")
@@ -63,7 +61,6 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted
     })
   }, [])
 
-  console.log(user)
   
   const [formData, setFormData] = useState({
     name: "",
@@ -72,15 +69,12 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted
     womenPass: 0,
     menPass: 0,
   })
-  console.log(formData)
-  console.log(dateRange)
   const handleChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
-
   const submit = (e: any, dateRange: RangeProps[] | string[]) => {
     e.preventDefault()
     submitForm(setSubmitted, dateRange, formData, submitType)
@@ -88,7 +82,6 @@ export const ModalForm: React.FC<ModalFormProps> = ({open, onClose, setSubmitted
     onClose && onClose()
   }
   
-  console.log(formData)
   return (
     <Dialog open={open} fullScreen={fullScreen}
     >

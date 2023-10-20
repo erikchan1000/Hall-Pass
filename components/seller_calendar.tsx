@@ -22,14 +22,12 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange, passMap
 
   const [selectDate, setSelectDate] = useState(null as any);
 
-  console.log("Selected Ranges: ", selectedRanges);
 
   useEffect(() => {
     setDateRange(selectedRanges);
   }
   , [selectedRanges, setDateRange]);
 
-  console.log()
 
 
   return (

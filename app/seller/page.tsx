@@ -22,7 +22,6 @@ export default function Page() {
   const [ passMap, setPassMap ] = useState({} as any)
 
   const router = useRouter()
-
   useEffect(() => {
     auth.onAuthStateChanged((user) => { 
       if (!user) {
@@ -32,9 +31,7 @@ export default function Page() {
         setUser(user)
       }
     })
-  }, [])
-  console.log('seller')
-  console.log(passMap)
+  }, [router])
 
   useEffect(() => {
     if (user) {

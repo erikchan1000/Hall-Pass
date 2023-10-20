@@ -5,6 +5,8 @@ import { auth } from "@/firebase/firebase_config.js";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Snowflake from '@/public/snowflake.svg'
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -32,7 +34,10 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <Link href="/" className='mb-10 top-5 md:top-20 absolute md:h-24 md:w-24 h-10 w-10'>
+        <Image src={Snowflake} alt='snowflake'/>
+      </Link>
       <div className="bg-white p-8 rounded shadow-md">
         <h1 className="text-2xl font-semibold mb-4">Seller Login</h1>
         <form onSubmit={handleLogin}>

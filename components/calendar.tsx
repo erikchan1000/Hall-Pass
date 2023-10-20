@@ -15,7 +15,6 @@ interface CalendarProps {
 const fetchDataAndUpdateCalendar = async (setPassMap: any) => {
   try {
       const passMap = await getAllPassesByDate()
-      console.log(passMap)
       setPassMap(passMap)
       return passMap
   }
@@ -34,15 +33,11 @@ export default function Calendar({setShowModal, setDateRange}: CalendarProps) {
   const [ selectedDates, setSelectedDates ] = useState<string[]>([])
   const [ selectDate, setSelectDate ] = useState(null as any)
   const [ passMap, setPassMap ] = useState(null as any)
-  console.log("From Calendar")
-  console.log(passMap)
   useEffect(() => {
     fetchDataAndUpdateCalendar(setPassMap)
   }, [])
-  console.log(selectedDates)
   useEffect(() => {
     if (!passMap) return
-    console.log(passMap.get('Wed Nov 01 2023'))
 
   }, [passMap])
 

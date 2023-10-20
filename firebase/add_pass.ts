@@ -16,12 +16,9 @@ export const mergeRanges = (range1: any, range2: RangeProps) => {
   const end1 = range1.end.toDate()
   const start2 = range2.start
   const end2 = range2.end
-  console.log('merge range data input')
 
   const start = dayjs(start1).isBefore(dayjs(start2)) ? start1 : start2
   const end = dayjs(end1).isAfter(dayjs(end2)) ? end1 : end2
-  console.log('merging')
-  console.log(start, end)
   return {start, end}
 }
 
@@ -32,9 +29,7 @@ export async function addPasses(dateRange: RangeProps[], passData: PassDataProps
   //merge overlapping data ranges, passDataRange is a list of objects with start: and end:
   const passDataRange = passSnap.data()?.dateRange
   let modifiedRange: RangeProps[] = []
-  console.log(passDataRange)
   if (passDataRange) {
-    console.log('passDataRange exists')
     let newRange = [...passDataRange]
 
     let p1 = 0
@@ -53,9 +48,6 @@ export async function addPasses(dateRange: RangeProps[], passData: PassDataProps
     while (p1 < newRange.length && p2 < dateRange.length) {
       const range1 = newRange[p1]
       const range2 = dateRange[p2]
-      console.log('range1', range1)
-      console.log(typeof range1.start)
-      console.log('range2', range2)
       const mergedRange = mergeRanges(range1, range2)
       if (mergedRange) {
         newRange[p1] = mergedRange
@@ -76,15 +68,13 @@ export async function addPasses(dateRange: RangeProps[], passData: PassDataProps
     console.log('passDataRange does not exist')
     modifiedRange = dateRange
   }
-  console.log('modified range')
-  console.log(modifiedRange)
 
   try {
       await setDoc(passRef, {
         name: passData.name,
       email: passData.email,
-      womenPass: passData.womenPass,
-      menPass: passData.menPass,
+      womenPass: passData.womenPass as number,
+      menPass: passData.menPass as number,
       dateRange: [
         ...modifiedRange
       ],

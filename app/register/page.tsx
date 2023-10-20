@@ -13,6 +13,9 @@ import Button from '@mui/material/Button';
 import { auth } from "@/firebase/firebase_config.js";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Snowflake from '@/public/snowflake.svg'
+import Link from 'next/link'
 
 const RegistrationPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -53,6 +56,10 @@ const RegistrationPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <Link href="/" className='mb-10 top-5 md:top-20 absolute md:h-24 md:w-24 h-10 w-10'>
+        <Image src={Snowflake} alt='snowflake'/>
+      </Link>
+
       <form className="bg-white p-8 flex flex-col rounded shadow-md" onSubmit={handleSubmit}>
         <h1 className="text-2xl font-semibold mb-4">Seller Registration</h1>
         <TextField
