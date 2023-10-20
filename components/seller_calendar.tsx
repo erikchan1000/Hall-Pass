@@ -28,8 +28,7 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange, passMap
   }
   , [selectedRanges, setDateRange]);
 
-
-
+  console.log(selectedRanges)
   return (
     <div className="flex mt-5 md:mt-0 w-5/6 gap-10 md:divide-x md:w-1/2 mx-auto bg-white p-4 h-fit md:flex-row flex-col rounded-3xl">
       <div>
@@ -89,7 +88,7 @@ const Calendar: React.FC<CalendarProps> = ({ setShowModal, setDateRange, passMap
                         ? "bg-blue-300 text-white"
                         : "",
                       selectedRanges.some((range) =>
-                        isBetween(date, dayjs(range.start), dayjs(range.end))
+                        isBetween(dayjs(date), dayjs(range.start), dayjs(range.end))
                       )
                         ? "bg-blue-600 text-white"
                         : "",
