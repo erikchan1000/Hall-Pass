@@ -35,6 +35,32 @@ export async function getAllPassesByDate() {
   return passMap
 }
 
+export async function getAllPassesByEmail() {
+  const mailMap = new Map();
+  const docSnap = await getDocs(collection(db, "passes"))
+  docSnap.forEach((doc) => {
+    const pass = doc.data();
+    const dateArray = []
+
+    if ("dateRange" in pass) { 
+      pass.dateRange.forEach((date) => {
+        let start = date.start.toDate()
+        const end = date.end.toDate()
+        while (start <= end) {
+          dateArray.push(start)
+          start = dayjs(start).add(1, "day").toDate();
+        }
+      })
+    }
+
+    pass.dateRange = new Set(dateArray)
+
+    mailMap.set(pass.email, pass)
+  })
+
+  return mailMap
+}
+
 export async function getPassesByEmail(email) {
   const docRef = doc(db, "passes", email);
   const docSnap = await getDoc(docRef);

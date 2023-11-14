@@ -62,6 +62,7 @@ export async function requestPasses(dateRange: string[], passData: PassDataProps
       status: 'pending',
       menPass: passData.menPass as number,
       womenPass: passData.womenPass as number,
+      assignment: "none"
     })
     console.log('pass added')
   }
